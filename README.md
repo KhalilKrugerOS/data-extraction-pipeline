@@ -16,3 +16,22 @@ $ conda create -n your_app_name python=3.8
 ```bash
 $ conda activate
 ```
+### (OPTIONAL) setup your command line interface for better readability
+
+```bash
+export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "
+```
+
+## Installation
+
+### Install required packages
+
+```bash
+pip install -r requirements.txt
+```
+
+### SETUP ENVIRONMENT VARIABLES
+
+```bash
+cp .env.example .env
+```
