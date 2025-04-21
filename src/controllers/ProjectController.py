@@ -1,14 +1,14 @@
-from fastapi import UploadFile
 from .BaseController import BaseController
 import os
-
 # datacontroller is a baseController
 # logic handlinf for the /data endpoint
+
+
 class ProjectController(BaseController):
 
     def __init__(self):
         super().__init__()
-    
+
     def get_project_path(self, project_id: str):
         project_dir = os.path.join(
             self.files_dir,
@@ -17,6 +17,4 @@ class ProjectController(BaseController):
 
         if not os.path.exists(project_dir):
             os.makedirs(project_dir)
-        
         return project_dir
-    
