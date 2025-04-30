@@ -3,9 +3,10 @@ from fastapi.responses import JSONResponse
 import aiofiles
 from helpers.config import get_settings, Settings
 from controllers import DataController
-from models.enums import RESPONSES
 import logging
 
+from models.enums import RESPONSES
+from .schemes.data import ProcessRequest
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -37,7 +38,7 @@ async def upload_data(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={"signal": "Invalid file: filename is missing"},
         )
-    file_path = data_controller.generate_unique_filename(
+    file_path, file_id = data_controller.generate_unique_filepath(
         file.filename, project_id=project_id
     )
     # write the file to disk
@@ -53,8 +54,17 @@ async def upload_data(
         )
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"signal": ResponseSignal.FILE_UPLOAD_FAILED.value},
+            content={
+                "signal": ResponseSignal.FILE_UPLOAD_FAILED.value},
         )
     return JSONResponse(
-        status_code=status.HTTP_200_OK, content={"signal": signal.value}
+        status_code=status.HTTP_200_OK, content={
+            "signal": signal.value,
+            "file_id": file_id
+            }
     )
+
+@data_router.post("/process/{project_id}")
+async def process_request(project_id: str, process_request: ProcessRequest):
+    file_id = process_request.file_id
+    return file_id
