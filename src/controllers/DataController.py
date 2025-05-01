@@ -17,12 +17,12 @@ class DataController(BaseController):
         if (
             uploaded_file.content_type is None
             or uploaded_file.content_type
-            not in self.app_settings.File_ALLOWED_EXTENSIONS
+            not in self.app_settings.FILE_ALLOWED_EXTENSIONS
         ):
             return False, ResponseSignal.FILE_VALIDATION_FAILED_FILE_TYPE
         elif uploaded_file.size is None or (
             uploaded_file.size
-            > (self.app_settings.File_Max_SIZE * self.convertMBtoBytes)
+            > (self.app_settings.FILE_MAX_SIZE * self.convertMBtoBytes)
         ):
             return False, ResponseSignal.FILE_VALIDATION_FAILED_FILE_SIZE
         return True, ResponseSignal.FILE_UPLOAD_SUCCESS
