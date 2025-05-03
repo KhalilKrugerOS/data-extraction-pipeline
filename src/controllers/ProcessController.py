@@ -22,7 +22,12 @@ class ProcessController(BaseController):
         file_extension = self.get_file_extension(file_id=file_id)
         # file id under project path
         file_path = os.path.join(self.project_path, file_id)
-
+        # check if file exists
+        if not os.path.exists(file_path):
+            logger.warning(
+                f"File {file_path} does not exist for file id {file_id}"
+            )
+            return None
         if file_extension == ProcessingEnum.TXT.value:
             return TextLoader(file_path=file_path, encoding="utf-8")
         

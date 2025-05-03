@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo:7.0.20-jammy
+
+    container_name: mongo
+
+    restart: always
+
+    ports:
+      - 27007:27017 # Expose MongoDB on port 27007
+
+    networks:
+      - backend
+
+    volumes:
+      - ./mongo:/data/db
+networks:
+  backend:
